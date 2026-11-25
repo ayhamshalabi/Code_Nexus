@@ -26,7 +26,7 @@ class NumericProcessor(DataProcessor):
         super().__init__()
 
     def _is_valid_number(self, data: Any) -> bool:
-        return not isinstance(data, bool) and isinstance(data, (int, float))
+        return isinstance(data, (int, float)) and not isinstance(data, bool)
 
     def validate(self, data: Any) -> bool:
         if self._is_valid_number(data):
