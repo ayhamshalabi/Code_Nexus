@@ -34,6 +34,11 @@ class DataProcessor(ABC):
         return self._data.pop(0)
 
 
+class ExportPlugin(Protocol):
+    def process_output(self, data: list[tuple[int, str]]) -> None:
+        pass
+
+
 class NumericProcessor(DataProcessor):
     def __init__(self) -> None:
         super().__init__(name="Numeric Processor")
@@ -168,11 +173,6 @@ class DataStream:
                 extracted.append(proc.output())
             if extracted:
                 plugin.process_output(extracted)
-
-
-class ExportPlugin(Protocol):
-    def process_output(self, data: list[tuple[int, str]]) -> None:
-        pass
 
 
 class CSVExportPlugin:
