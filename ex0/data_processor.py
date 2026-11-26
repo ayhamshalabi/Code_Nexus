@@ -76,7 +76,13 @@ class LogProcessor(DataProcessor):
         super().__init__()
 
     def _is_valid_dict(self, data: Any) -> bool:
-        return isinstance(data, dict)
+        if not isinstance(data, dict) or not data:
+            return False
+        if not all(
+            isinstance(k, str) and isinstance(v, str) for k, v in data.items()
+        ):
+            return False
+        return "log_level" in data and "log_message" in data
 
     def validate(self, data: Any) -> bool:
         if self._is_valid_dict(data):
@@ -107,7 +113,9 @@ if __name__ == "__main__":
     print(f"Trying to validate input '42': {num_proc.validate(42)}")
     print(f"Trying to validate input 'Hello': {num_proc.validate("Hello")}")
     print("Test invalid ingestion of string 'foo' without prior validation:")
-    try:
+    try:    def _is_valid_dict(self, data: Any) -> bool:
+        return isinstance(data, dict)
+
         num_proc.ingest("foo")  # type: ignore
     except Exception as err:
         print(f"Got exception: {err}")

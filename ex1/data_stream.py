@@ -39,7 +39,7 @@ class NumericProcessor(DataProcessor):
         super().__init__(name="Numeric Processor")
 
     def _is_valid_number(self, data: Any) -> bool:
-        return not isinstance(data, bool) and isinstance(data, (int, float))
+        return isinstance(data, (int, float)) and not isinstance(data, bool)
 
     def validate(self, data: Any) -> bool:
         if self._is_valid_number(data):
@@ -130,7 +130,7 @@ class DataStream:
             raise ValueError("Processor is already registered in this stream")
         self._processors.append(proc)
 
-    def process_stream(self, stream: list[Any]) -> None:
+    def process_stream(self, stream: list[typing.Any]) -> None:
         for element in stream:
             handled: bool = False
             for proc in self._processors:
@@ -160,7 +160,7 @@ class DataStream:
             )
 
 
-def main() -> None:
+if __name__ == "__main__":
     print("=== Code Nexus - Data Stream ===")
 
     print("\nInitialize Data Stream...")
@@ -170,14 +170,13 @@ def main() -> None:
     print("\nRegistering Numeric Processor")
     num_proc = NumericProcessor()
     stream.register_processor(num_proc)
-
     batch: list[Any] = [
         "Hello world",
         [3.14, -1, 2.71],
         [
             {
                 "log_level": "WARNING",
-                "log_message": "Telnet access! Use ssh instead",
+                "log_message": "Telnet access! Use ssh instead"
             },
             {
                 "log_level": "INFO",
@@ -187,17 +186,15 @@ def main() -> None:
         42,
         ["Hi", "five"]
     ]
-
-    print(f"Send first batch of data on stream: {batch}")
+    print(f"\nSend first batch of data on stream: {batch}")
     stream.process_stream(batch)
     stream.print_processors_stats()
 
     print("\nRegistering other data processors")
     text_proc = TextProcessor()
-    log_proc = LogProcessor()
     stream.register_processor(text_proc)
+    log_proc = LogProcessor()
     stream.register_processor(log_proc)
-
     print("Send the same batch again")
     stream.process_stream(batch)
     stream.print_processors_stats()
@@ -213,7 +210,3 @@ def main() -> None:
     log_proc.output()
 
     stream.print_processors_stats()
-
-
-if __name__ == "__main__":
-    main()
