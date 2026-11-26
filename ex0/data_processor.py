@@ -113,9 +113,7 @@ if __name__ == "__main__":
     print(f"Trying to validate input '42': {num_proc.validate(42)}")
     print(f"Trying to validate input 'Hello': {num_proc.validate("Hello")}")
     print("Test invalid ingestion of string 'foo' without prior validation:")
-    try:    def _is_valid_dict(self, data: Any) -> bool:
-        return isinstance(data, dict)
-
+    try:
         num_proc.ingest("foo")  # type: ignore
     except Exception as err:
         print(f"Got exception: {err}")

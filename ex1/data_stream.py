@@ -130,7 +130,7 @@ class DataStream:
             raise ValueError("Processor is already registered in this stream")
         self._processors.append(proc)
 
-    def process_stream(self, stream: list[typing.Any]) -> None:
+    def process_stream(self, stream: list[Any]) -> None:
         for element in stream:
             handled: bool = False
             for proc in self._processors:
