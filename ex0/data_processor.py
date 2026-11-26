@@ -106,13 +106,11 @@ def main() -> None:
     num_proc = NumericProcessor()
     print(f"Trying to validate input '42': {num_proc.validate(42)}")
     print(f"Trying to validate input 'Hello': {num_proc.validate('Hello')}")
-
     print("Test invalid ingestion of string 'foo' without prior validation:")
     try:
         num_proc.ingest("foo")  # type: ignore[arg-type]
     except Exception as err:
         print(f" Got exception: {err}")
-
     num_data: list[int | float] = [1, 2, 3, 4, 5]
     print(f"Processing data: {num_data}")
     num_proc.ingest(num_data)
@@ -124,7 +122,7 @@ def main() -> None:
     print("\nTesting Text Processor...")
     text_proc = TextProcessor()
     print(f" Trying to validate input '42': {text_proc.validate(42)}")
-    text_data = ["Hello", "Nexus", "World"]
+    text_data: list[str] = ["Hello", "Nexus", "World"]
     print(f" Processing data: {text_data}")
     text_proc.ingest(text_data)
     print(" Extracting 1 value...")
@@ -144,7 +142,3 @@ def main() -> None:
     for _ in range(2):
         rank, val = log_proc.output()
         print(f" Log entry {rank}: {val}")
-
-
-if __name__ == "__main__":
-    main()
